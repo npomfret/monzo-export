@@ -129,16 +129,16 @@ async function fetchAccountId(token: string): Promise<string> {
   return accounts[0].id;
 }
 
-function yearWindowsFrom(since: string): Array<{ since: string; before: string }> {
+const WINDOW_MS = 364 * 24 * 60 * 60 * 1000; // 364 days (API max is 8760h = 365 days)
+
+function timeWindowsFrom(since: string): Array<{ since: string; before: string }> {
   const start = new Date(since);
   const now = new Date();
   const windows: Array<{ since: string; before: string }> = [];
 
   let cursor = start;
   while (cursor < now) {
-    const next = new Date(cursor);
-    next.setFullYear(next.getFullYear() + 1);
-    const end = next > now ? now : next;
+    const end = new Date(Math.min(cursor.getTime() + WINDOW_MS, now.getTime()));
     windows.push({
       since: cursor.toISOString(),
       before: end.toISOString(),
@@ -163,7 +163,7 @@ async function downloadTransactions(
   }
 
   // Otherwise walk forward in yearly windows from the timestamp
-  const windows = yearWindowsFrom(state.since);
+  const windows = timeWindowsFrom(state.since);
   for (const window of windows) {
     console.log(`\nWindow: ${window.since.slice(0, 10)} → ${window.before.slice(0, 10)}`);
     let since = window.since;
