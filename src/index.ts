@@ -31,18 +31,8 @@ interface Transaction {
   is_load: boolean;
 }
 
-interface Credentials {
-  userId: string;
-  accountId: string;
-  accessToken: string;
-}
-
-function readCredentials(): Credentials {
-  return JSON.parse(fs.readFileSync(CREDENTIALS_PATH, "utf-8"));
-}
-
 function readAccessToken(): string {
-  const { accessToken } = readCredentials();
+  const { accessToken } = JSON.parse(fs.readFileSync(CREDENTIALS_PATH, "utf-8"));
   if (!accessToken) throw new Error("accessToken not found in credentials.json");
   return accessToken;
 }
