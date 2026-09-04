@@ -1,13 +1,1 @@
-# Codex project config.
-#
-# Only loads when this project is trusted. Codex prompts to trust a directory
-# on first use; alternatively add a [projects."<abs path>"] entry with
-# trust_level = "trusted" to ~/.codex/config.toml.
-#
-# Sandboxing is deliberately NOT set here. A project-level sandbox_mode
-# overrides the global [permissions.checkout-only] profile and silently
-# restores unrestricted reads outside this directory.
-#
-# Per-command allow/prompt/deny lives in .codex/rules/project.rules
-
 approval_policy = "on-request"
