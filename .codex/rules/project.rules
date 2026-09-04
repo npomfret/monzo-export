@@ -2,7 +2,7 @@
 # Syntax: Starlark. decision precedence: forbidden > prompt > allow.
 # Loads only when this project is trusted.
 
-# ---- git: everything except merge / push / commit ----
+# ---- git: everything except merge / push ----
 prefix_rule(
     pattern = ["git"],
     decision = "allow",
@@ -10,9 +10,9 @@ prefix_rule(
 )
 
 prefix_rule(
-    pattern = ["git", ["merge", "push", "commit"]],
+    pattern = ["git", ["merge", "push"]],
     decision = "forbidden",
-    justification = "Merging, pushing and committing are reserved for the human.",
+    justification = "Merging and pushing (all remote write operations) are reserved for the human.",
 )
 
 # Global git flags sit between "git" and the subcommand, so exact-prefix
@@ -21,6 +21,21 @@ prefix_rule(
     pattern = ["git", ["-c", "-C", "--git-dir", "--work-tree", "--exec-path", "--namespace", "-P", "--no-pager"]],
     decision = "prompt",
     justification = "A global git flag can conceal a blocked subcommand; confirm manually.",
+)
+
+# ---- git history rewriting: confirm before it happens ----
+prefix_rule(
+    pattern = ["git", "reset"],
+    decision = "prompt",
+    justification = "reset can discard staged changes or drop commits; confirm manually.",
+)
+
+# Only matches --amend directly after "commit". prefix_rule has no way to match
+# a flag at an arbitrary position, so `git commit -m msg --amend` is not caught.
+prefix_rule(
+    pattern = ["git", "commit", "--amend"],
+    decision = "prompt",
+    justification = "amend rewrites the previous commit; confirm manually.",
 )
 
 # ---- npm ----
