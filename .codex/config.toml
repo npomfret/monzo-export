@@ -1,8 +1,8 @@
-# Codex project config for monzo-export.
+# Codex project config.
 #
-# Only loads when this project is trusted, i.e. ~/.codex/config.toml contains:
-#   [projects."/Users/nickpomfret/projects/monzo-export"]
-#   trust_level = "trusted"
+# Only loads when this project is trusted. Codex prompts to trust a directory
+# on first use; alternatively add a [projects."<abs path>"] entry with
+# trust_level = "trusted" to ~/.codex/config.toml.
 #
 # Per-command allow/prompt/deny lives in .codex/rules/project.rules
 
