@@ -1,0 +1,14 @@
+# Codex project config for monzo-export.
+#
+# Only loads when this project is trusted, i.e. ~/.codex/config.toml contains:
+#   [projects."/Users/nickpomfret/projects/monzo-export"]
+#   trust_level = "trusted"
+#
+# Per-command allow/prompt/deny lives in .codex/rules/project.rules
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+# Writes are confined to this directory tree.
+network_access = true
