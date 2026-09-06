@@ -38,6 +38,31 @@ prefix_rule(
     justification = "amend rewrites the previous commit; confirm manually.",
 )
 
+# ---- gh: GitHub CLI ----
+prefix_rule(
+    pattern = ["gh", "issue"],
+    decision = "allow",
+    justification = "Reading and filing issues is expected agent work.",
+)
+
+prefix_rule(
+    pattern = ["gh", "issue", "delete"],
+    decision = "forbidden",
+    justification = "Deleting an issue is not reversible from the CLI.",
+)
+
+prefix_rule(
+    pattern = ["gh", ["repo", "release", "workflow", "run", "api"]],
+    decision = "prompt",
+    justification = "These reach beyond issues and can change the repo or trigger CI.",
+)
+
+prefix_rule(
+    pattern = ["gh", ["auth", "secret", "ssh-key"]],
+    decision = "forbidden",
+    justification = "Credential and secret surfaces are not for the agent.",
+)
+
 # ---- npm ----
 prefix_rule(
     pattern = ["npm", ["run", "test", "install", "ci", "exec", "ls", "list", "outdated", "why", "audit"]],
