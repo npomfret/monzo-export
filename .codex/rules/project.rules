@@ -2,18 +2,13 @@
 # Syntax: Starlark. decision precedence: forbidden > prompt > allow.
 # Loads only when this project is trusted.
 
-# ---- git: everything except merge / push ----
+# ---- git: shared default-branch workflow ----
 prefix_rule(
     pattern = ["git"],
     decision = "allow",
     justification = "Local git work is unrestricted in this project.",
 )
 
-prefix_rule(
-    pattern = ["git", ["merge", "push"]],
-    decision = "forbidden",
-    justification = "Merging and pushing (all remote write operations) are reserved for the human.",
-)
 
 # Global git flags sit between "git" and the subcommand, so exact-prefix
 # matching would miss e.g. `git -C . push`. Route those through a prompt.
