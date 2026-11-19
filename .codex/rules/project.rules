@@ -25,14 +25,6 @@ prefix_rule(
     justification = "reset can discard staged changes or drop commits; confirm manually.",
 )
 
-# Only matches --amend directly after "commit". prefix_rule has no way to match
-# a flag at an arbitrary position, so `git commit -m msg --amend` is not caught.
-prefix_rule(
-    pattern = ["git", "commit", "--amend"],
-    decision = "prompt",
-    justification = "amend rewrites the previous commit; confirm manually.",
-)
-
 # ---- gh: GitHub CLI ----
 prefix_rule(
     pattern = ["gh", "issue"],
