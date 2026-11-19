@@ -2,22 +2,6 @@
 # Syntax: Starlark. decision precedence: forbidden > prompt > allow.
 # Loads only when this project is trusted.
 
-# ---- git: shared default-branch workflow ----
-prefix_rule(
-    pattern = ["git"],
-    decision = "allow",
-    justification = "Local git work is unrestricted in this project.",
-)
-
-
-# Global git flags sit between "git" and the subcommand, so exact-prefix
-# matching would miss e.g. `git -C . push`. Route those through a prompt.
-prefix_rule(
-    pattern = ["git", ["-c", "-C", "--git-dir", "--work-tree", "--exec-path", "--namespace", "-P", "--no-pager"]],
-    decision = "prompt",
-    justification = "A global git flag can conceal a blocked subcommand; confirm manually.",
-)
-
 # ---- git history rewriting: confirm before it happens ----
 prefix_rule(
     pattern = ["git", "reset"],
@@ -26,12 +10,6 @@ prefix_rule(
 )
 
 # ---- gh: GitHub CLI ----
-prefix_rule(
-    pattern = ["gh", "issue"],
-    decision = "allow",
-    justification = "Reading and filing issues is expected agent work.",
-)
-
 prefix_rule(
     pattern = ["gh", "issue", "delete"],
     decision = "forbidden",
@@ -51,12 +29,6 @@ prefix_rule(
 )
 
 # ---- npm ----
-prefix_rule(
-    pattern = ["npm", ["run", "test", "install", "ci", "exec", "ls", "list", "outdated", "why", "audit"]],
-    decision = "allow",
-    justification = "Run this project's own npm targets.",
-)
-
 prefix_rule(
     pattern = ["npm", ["publish", "unpublish", "adduser", "login", "logout", "token", "owner", "access", "dist-tag", "deprecate", "version"]],
     decision = "forbidden",
