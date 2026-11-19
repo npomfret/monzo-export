@@ -2,13 +2,6 @@
 # Syntax: Starlark. decision precedence: forbidden > prompt > allow.
 # Loads only when this project is trusted.
 
-# ---- git history rewriting: confirm before it happens ----
-prefix_rule(
-    pattern = ["git", "reset"],
-    decision = "prompt",
-    justification = "reset can discard staged changes or drop commits; confirm manually.",
-)
-
 # ---- gh: GitHub CLI ----
 prefix_rule(
     pattern = ["gh", "issue", "delete"],
@@ -17,9 +10,9 @@ prefix_rule(
 )
 
 prefix_rule(
-    pattern = ["gh", ["repo", "release", "workflow", "run", "api"]],
+    pattern = ["gh", ["repo", "release", "api"]],
     decision = "prompt",
-    justification = "These reach beyond issues and can change the repo or trigger CI.",
+    justification = "These can change repo settings or visibility, publish releases, or make arbitrary API calls.",
 )
 
 prefix_rule(
