@@ -10,12 +10,6 @@ prefix_rule(
 )
 
 prefix_rule(
-    pattern = ["gh", ["repo", "release", "api"]],
-    decision = "prompt",
-    justification = "These can change repo settings or visibility, publish releases, or make arbitrary API calls.",
-)
-
-prefix_rule(
     pattern = ["gh", ["auth", "secret", "ssh-key"]],
     decision = "forbidden",
     justification = "Credential and secret surfaces are not for the agent.",
