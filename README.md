@@ -1,5 +1,11 @@
 # Monzo Export
 
+## Retired
+
+Monzo now has a full transaction export built into the app, including Pots, with PDF, CSV and QIF formats. Use the app instead: [Monzo's transaction export instructions](https://monzo.com/help/budgeting-overdrafts-savings/exporting-my-transactions).
+
+This project is permanently retired and will receive no further updates or support. The repository is archived, and the instructions below are kept for historical reference.
+
 Download Monzo transaction data and save as monthly CSV files.
 
 ## Setup
